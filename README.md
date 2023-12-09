@@ -20,10 +20,10 @@ This version creates a systems that detect when your plant is needing some water
 You can find detailed instructions [here](https://learn.adafruit.com/adafruit-bonsai-buckaroo)
 
 1. Connect the Bonsai board to the Micro:bit.
-2. Wire the pump and the crocodriles pins to the Bonsai board.
+2. Wire the pump and the crocodile pins to the Bonsai board.
 3. Connent the micro:bit to your computer. 
 4. Go to [python.microbit.org](https://python.microbit.org/v/3)
-5. Connect to the board. 
+5. Connect to the board.
 6. Write this code:
 
 ```
@@ -38,18 +38,23 @@ def read_and_average(analog_in, times, wait):
 
 while True:
     # Take 100 readings and average them
+
     analog_value = read_and_average(pin1.read_analog(), 100, 0.01)
     # Calculate a percentage (analog_value ranges from 0 to 1024 )
     percentage = analog_value / 1024  * 100
     # Display the percentage
-    display.show("S: {} %".format(int(percentage)))
-    # Print the values to the serial console
-    print((analog_value, percentage))
-
-    if percentage < 50:
-      pass
-      #TODO: Motor on
-
+    #display.show("V:{}%".format(int(percentage)))
+    sleep(2000)
+    
+    # Note: reading of ~64% when no contact
+    if percentage < 84:
+        # Motor on
+        display.show(Image.UMBRELLA)
+        audio.play(Sound.TWINKLE)
+        #pin2.write_digital(1)
+    else:
+        display.show(Image.HAPPY)
+        #pin2.write_digital(0)
 ```
 
 7. Check that the pump is activated when you put the pins close or far away.
